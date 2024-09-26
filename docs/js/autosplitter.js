@@ -198,6 +198,20 @@ _autosplitter = (function () {
 			);
 		}
 
+function registerLevelReset(level_code) {
+    var stats = getStats();
+    stats[level_code - 1] = (stats[level_code - 1] || 0) + 1;
+    document.cookie = levelCookie + "=" + JSON.stringify(stats);
+}
+
+window.stats = function() {
+    var stats = getStats();
+    for (i = 1; i <= 15; i++) {
+        console.log("Level " + i + ": " + (stats[i - 1] || 0) + " run resets.");
+    }
+    console.log((stats[15] || 0) + " game finishes.");
+}
+		
 		// Only when we are in speedrun mode, update the speedrun and transition timers for the current frame
 		if (state.speedrun_mode_active) {
 			state.speedrunTime += frameTime;

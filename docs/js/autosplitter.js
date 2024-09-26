@@ -198,6 +198,30 @@ _autosplitter = (function () {
 			);
 		}
 
+window.autosplitter = {};
+var wrs = ["3.09", "2.75", "4.13", "3.45", "2.22", "4.87", "6.30", "3.97", "4.65", "5.72", "4.05", "3.97", "10.53", "6.05", "2.78"];
+
+var oneChestLevels = [2, 3, 5, 8, 11, 13, 14, 15];
+
+var levelCookie = "level_stats";
+
+function getStats() {
+    var name = levelCookie + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    var stats = [];
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return JSON.parse(c.substring(name.length, c.length));
+        }
+    }
+    return [];
+}
+
 function registerLevelReset(level_code) {
     var stats = getStats();
     stats[level_code - 1] = (stats[level_code - 1] || 0) + 1;
@@ -211,6 +235,7 @@ window.stats = function() {
     }
     console.log((stats[15] || 0) + " game finishes.");
 }
+
 		
 		// Only when we are in speedrun mode, update the speedrun and transition timers for the current frame
 		if (state.speedrun_mode_active) {
